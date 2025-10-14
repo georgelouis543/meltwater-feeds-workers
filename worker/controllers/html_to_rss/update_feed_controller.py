@@ -8,7 +8,7 @@ async def update_existing_feed(
         feed_params,
         documents_collection,
         render_cache_collection,
-) -> dict[str, str] | None:
+) -> dict:
     try:
 
         existing_feed_id = str(feed_params["_id"])
@@ -33,6 +33,10 @@ async def update_existing_feed(
             return {
                 "message": f"No New items to save for Feed ID: {existing_feed_id}"
             }
+
+        return {
+            "message": f"No New items to save for Feed ID: {existing_feed_id}"
+        }
 
 
     except Exception as e:
