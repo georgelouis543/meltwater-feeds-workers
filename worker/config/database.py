@@ -23,3 +23,4 @@ db = mongo_client[DB_NAME]
 
 feed_collection = db["feeds_collection"]
 documents_collection = db["documents_collection"]
+cache_collection = db["render_cache_collection"]
