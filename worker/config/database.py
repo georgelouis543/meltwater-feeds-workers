@@ -16,3 +16,10 @@ def get_async_client():
         MONGO_URI,
         server_api=ServerApi('1')
     )
+
+
+mongo_client = get_async_client()
+db = mongo_client[DB_NAME]
+
+feed_collection = db["feeds_collection"]
+documents_collection = db["documents_collection"]
