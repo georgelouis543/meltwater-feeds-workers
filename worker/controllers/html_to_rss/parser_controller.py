@@ -14,7 +14,6 @@ async def parse_input_html(
         render_cache_collection
 ) -> list | None:
     try:
-        xpath_params = xpath_params.model_dump()
         input_url = xpath_params.get("url")
 
         if not input_url:

@@ -7,7 +7,7 @@ async def save_items(
         feed_id: str,
         items: list[dict],
         documents_collection
-):
+) -> bool:
 
     existing_items_cursor = documents_collection.find(
         {
@@ -61,5 +61,11 @@ async def save_items(
     if documents_to_insert:
         try:
             await documents_collection.insert_many(documents_to_insert)
+            return True
         except Exception as e:
             logging.info(f"Exception {e} occurred while adding documents to the Doc Repo")
+            return False
+
+    else:
+        logging.info(f"No New Documents to store!")
+        return False

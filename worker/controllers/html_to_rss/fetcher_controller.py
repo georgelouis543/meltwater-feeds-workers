@@ -11,7 +11,7 @@ PHANTOM_JS_API_URL = os.getenv("PHANTOM_JS_URL")
 async def get_javascript_page(
         url: str,
         render_cache_collection
-) -> str | None:
+) -> str:
     try:
         # Check if the source has been cached for the given URL
         is_cached = await render_cache_collection.find_one({
@@ -59,15 +59,15 @@ async def get_javascript_page(
 
     except httpx.HTTPStatusError as e:
         logging.warning(f"Could not fetch source. Exited with HTTPStatusError: {e}")
-        return None
+        raise e
 
     except httpx.RequestError as e:
         logging.warning(f"Could not fetch source. Exited with RequestError: {e}")
-        return None
+        raise e
 
     except Exception as e:
         logging.warning(f"Could not fetch source. Exited with Exception: {e}")
-        return None
+        raise e
 
 
 
@@ -104,12 +104,12 @@ async def get_static_html_page(
 
     except httpx.HTTPStatusError as e:
         logging.warning(f"Could not fetch source. Exited with HTTPStatusError: {e}")
-        return None
+        raise e
 
     except httpx.RequestError as e:
         logging.warning(f"Could not fetch source. Exited with RequestError: {e}")
-        return None
+        raise e
 
     except Exception as e:
         logging.warning(f"Could not fetch source. Exited with Exception: {e}")
-        return None
+        raise e
