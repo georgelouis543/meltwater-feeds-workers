@@ -12,7 +12,10 @@ celery_app = Celery(
     "worker",
     broker=REDIS_BROKER,
     backend=REDIS_BACKEND,
-    include=["worker.tasks.run_feeds_task"],
+    include=[
+        "worker.tasks.html_to_rss_feeds_task",
+        "worker.tasks.rss_playground_task"
+    ],
 )
 
 
@@ -26,8 +29,15 @@ celery_app.conf.update(
 
 
 celery_app.conf.beat_schedule = {
-    "run-feed-updates-every-30-mins": {
-        "task": "worker.tasks.run_feeds_task.run_all_feeds",
+    "html-to-rss-worker": {
+        "task": "worker.tasks.html_to_rss_feeds_task.run_all_feeds",
         "schedule": timedelta(seconds=30),
+        "options": {"queue": "html_to_rss"},
     },
+
+    "rss-playground-worker": {
+        "task": "worker.tasks.rss_playground_task.run_all_feeds",
+        "schedule": timedelta(seconds=30),
+        "options": {"queue": "rss_playground"},
+    }
 }

@@ -1,7 +1,7 @@
 import logging
 
 from worker.config.database import get_database
-from worker.controllers.html_to_rss.update_feed_controller import update_existing_feed
+from worker.controllers.rss_playground.update_feed_controller import update_existing_feed
 
 
 async def get_feed_params():
@@ -12,7 +12,7 @@ async def get_feed_params():
     render_cache_collection = db["render_cache"]
 
     feeds_cursor = feed_collection.find({
-        "feed_type": "html_to_rss"
+        "feed_type": "rss_to_mwfeed"
     })
     feeds = await feeds_cursor.to_list(length=None)
 
