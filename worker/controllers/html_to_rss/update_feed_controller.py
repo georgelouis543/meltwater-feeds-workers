@@ -26,14 +26,17 @@ async def update_existing_feed(
             )
 
             if save_items_res:
+                logging.info(f"Saved New items for Feed ID: {existing_feed_id}")
                 return {
                     "message": f"Saved New items for Feed ID: {existing_feed_id}"
                 }
 
+            logging.info(f"No New items to save for Feed ID: {existing_feed_id}")
             return {
                 "message": f"No New items to save for Feed ID: {existing_feed_id}"
             }
 
+        logging.info(f"No New items to save for Feed ID: {existing_feed_id}")
         return {
             "message": f"No New items to save for Feed ID: {existing_feed_id}"
         }
@@ -41,6 +44,4 @@ async def update_existing_feed(
 
     except Exception as e:
         logging.warning(f"An Exception {e} occurred while saving items")
-        return {
-            "message": f"An Exception {e} occurred while saving items!"
-        }
+        raise e
