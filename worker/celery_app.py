@@ -5,7 +5,8 @@ from celery import Celery
 celery_app = Celery(
     "worker",
     broker="redis://localhost:6379/0",
-    backend="redis://localhost:6379/1"
+    backend="redis://localhost:6379/1",
+    include=["worker.tasks.run_feeds_task"],
 )
 
 
@@ -20,7 +21,7 @@ celery_app.conf.update(
 
 celery_app.conf.beat_schedule = {
     "run-feed-updates-every-30-mins": {
-        "task": "worker.tasks.run_all_feeds",
+        "task": "worker.tasks.run_feeds_task.run_all_feeds",
         "schedule": timedelta(minutes=30),
     },
 }

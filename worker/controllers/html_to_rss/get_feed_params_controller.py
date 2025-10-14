@@ -1,14 +1,16 @@
 import logging
 
-from worker.config.database import (
-    feed_collection,
-    documents_collection,
-    cache_collection
-)
+from worker.config.database import get_database
 from worker.controllers.html_to_rss.update_feed_controller import update_existing_feed
 
 
 async def get_feed_params():
+    client, db = get_database()
+
+    feed_collection = db["feed_collection"]
+    documents_collection = db["documents_collection"]
+    cache_collection = db["cache_collection"]
+
     feeds_cursor = feed_collection.find({
         "feed_type": "html_to_rss"
     })

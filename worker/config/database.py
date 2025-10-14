@@ -1,5 +1,6 @@
 import os
 
+import certifi
 from dotenv import load_dotenv
 from pymongo import AsyncMongoClient
 from pymongo.server_api import ServerApi
@@ -11,16 +12,11 @@ DB_NAME = os.getenv(
     "meltwater-feeds-prod"
 )
 
-def get_async_client():
-    return AsyncMongoClient(
+def get_database():
+    client = AsyncMongoClient(
         MONGO_URI,
-        server_api=ServerApi('1')
+        server_api=ServerApi('1'),
+        tlsCAFile=certifi.where()
     )
-
-
-mongo_client = get_async_client()
-db = mongo_client[DB_NAME]
-
-feed_collection = db["feeds_collection"]
-documents_collection = db["documents_collection"]
-cache_collection = db["render_cache_collection"]
+    db = client[DB_NAME]
+    return client, db
