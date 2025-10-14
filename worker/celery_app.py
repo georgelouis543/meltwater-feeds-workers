@@ -1,11 +1,17 @@
+import os
 from datetime import timedelta
 
 from celery import Celery
+from dotenv import load_dotenv
+
+load_dotenv()
+REDIS_BROKER = os.getenv("REDIS_BROKER")
+REDIS_BACKEND = os.getenv("REDIS_BACKEND")
 
 celery_app = Celery(
     "worker",
-    broker="redis://localhost:6379/0",
-    backend="redis://localhost:6379/1",
+    broker=REDIS_BROKER,
+    backend=REDIS_BACKEND,
     include=["worker.tasks.run_feeds_task"],
 )
 
