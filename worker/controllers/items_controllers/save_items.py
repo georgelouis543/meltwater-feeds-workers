@@ -40,7 +40,7 @@ async def save_items(
     else:
         # Use set for constant O(1) lookup
         existing_item_urls = {
-            existing_item["item_urls"] for existing_item in existing_items
+            existing_item["item_url"] for existing_item in existing_items
         }
 
         for item in items:

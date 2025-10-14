@@ -22,6 +22,6 @@ celery_app.conf.update(
 celery_app.conf.beat_schedule = {
     "run-feed-updates-every-30-mins": {
         "task": "worker.tasks.run_feeds_task.run_all_feeds",
-        "schedule": timedelta(minutes=30),
+        "schedule": timedelta(seconds=30),
     },
 }
