@@ -32,12 +32,16 @@ celery_app.conf.beat_schedule = {
     "html-to-rss-worker": {
         "task": "worker.tasks.html_to_rss_feeds_task.run_all_feeds",
         "schedule": timedelta(minutes=30),
-        "options": {"queue": "html_to_rss"},
+        "options": {
+            "queue": "html_to_rss"
+        },
     },
 
     "rss-playground-worker": {
         "task": "worker.tasks.rss_playground_task.run_all_feeds",
         "schedule": timedelta(minutes=30),
-        "options": {"queue": "rss_playground"},
+        "options": {
+            "queue": "rss_playground"
+        },
     }
 }
