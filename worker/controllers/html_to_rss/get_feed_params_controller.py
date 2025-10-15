@@ -1,8 +1,11 @@
+import asyncio
 import logging
 
 from worker.config.database import get_database
 from worker.controllers.html_to_rss.update_feed_controller import update_existing_feed
 
+
+MAX_CONCURRENT_FEEDS = 10
 
 async def get_feed_params():
     client, db = get_database()
@@ -16,19 +19,22 @@ async def get_feed_params():
     })
     feeds = await feeds_cursor.to_list(length=None)
 
-    for feed_params in feeds:
-        try:
+    sem = asyncio.Semaphore(MAX_CONCURRENT_FEEDS)
+
+    async def limited_update(feed_params):
+        async with sem:
             feed_id = str(feed_params["_id"])
             logging.info(f"Updating feed: {feed_id}")
+            try:
+                await update_existing_feed(
+                    feed_params,
+                    documents_collection,
+                    render_cache_collection
+                )
+                logging.info(f"Feed {feed_id} updated successfully.")
+            except Exception as e:
+                logging.warning(f"Error updating feed {feed_id}: {e}")
 
-            await update_existing_feed(
-                feed_params,
-                documents_collection,
-                render_cache_collection
-            )
+    await asyncio.gather(*(limited_update(feed) for feed in feeds))
 
-        except Exception as e:
-            logging.warning(f"Error updating feed {feed_params['_id']}: {e}")
-            continue
-
-    logging.info("All feeds updated successfully.")
+    logging.info("All feeds updated (concurrently) successfully.")
