@@ -1,0 +1,45 @@
+# Don't copy version control history
+.git
+.gitignore
+
+# Don't copy editor or tool configs
+.vscode/
+.idea/
+.cursor*
+
+# Bytecode + cache
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.pdm-python/
+.pixi/
+
+# Virtual environments
+.env
+.venv/
+env/
+venv/
+
+# Unit test results
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Build output
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+
+# Docs, tests, unnecessary extras
+docs/
+tests/
+*.md
+
+
+celerybeat-schedule.db

@@ -14,7 +14,12 @@ async def get_feed_params():
     render_cache_collection = db["render_cache"]
 
     feeds_cursor = feed_collection.find({
-        "feed_type": "rss_to_mwfeed"
+        "feed_type": {
+            "$in": [
+                "rss_to_mwfeed",
+                "rss_to_sharepoint"
+            ]
+        }
     })
     feeds = await feeds_cursor.to_list(length=None)
 
