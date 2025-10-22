@@ -1,6 +1,5 @@
 import os
 
-import certifi
 from dotenv import load_dotenv
 from pymongo import AsyncMongoClient
 from pymongo.server_api import ServerApi
@@ -16,7 +15,6 @@ def get_database():
     client = AsyncMongoClient(
         MONGO_URI,
         server_api=ServerApi('1'),
-        tlsCAFile=certifi.where()
     )
     db = client[DB_NAME]
     return client, db

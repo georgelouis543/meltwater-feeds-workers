@@ -1,4 +1,5 @@
 import os
+import ssl
 from datetime import timedelta
 
 from celery import Celery
@@ -45,3 +46,18 @@ celery_app.conf.beat_schedule = {
         },
     }
 }
+
+
+celery_app.conf.update(
+    broker_use_ssl={
+        "ssl_cert_reqs": ssl.CERT_NONE,
+    },
+    redis_backend_use_ssl={
+        "ssl_cert_reqs": ssl.CERT_NONE,
+    },
+    task_serializer="json",
+    accept_content=["json"],
+    result_serializer="json",
+    timezone="UTC",
+    enable_utc=True,
+)
